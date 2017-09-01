@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Context>
+  <Resource name="jdbc/ds" auth="Container"
+            type="javax.sql.DataSource"
+            driverClassName="org.hsqldb.jdbc.JDBCDriver"
+            url="jdbc:hsqldb:mem:db/data"
+            username="SA"
+            maxActive="20"
+            maxIdle="30"
+            maxWait="10000"
+  />
+</Context>

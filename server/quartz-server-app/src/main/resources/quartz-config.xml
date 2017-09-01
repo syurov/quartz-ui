@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<job-scheduling-data xmlns="http://www.quartz-scheduler.org/xml/JobSchedulingData" version="1.8">
+
+  <schedule>
+    <job>
+      <name>TestJob</name>
+      <group>Test</group>
+      <job-class>com.easy.quartz.services.example.TestJob</job-class>
+    </job>
+    <trigger>
+      <simple>
+        <name>TestJob</name>
+        <group>Test</group>
+        <job-name>TestJob</job-name>
+        <job-group>Test</job-group>
+        <repeat-count>-1</repeat-count>
+        <repeat-interval>1000</repeat-interval>
+      </simple>
+    </trigger>
+  </schedule>
+</job-scheduling-data>

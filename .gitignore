@@ -1,0 +1,10 @@
+*.sass-cache
+*.idea
+*.iml
+target/
+*.log
+.orig
+
+currentWork/
+MANIFEST.MF
+

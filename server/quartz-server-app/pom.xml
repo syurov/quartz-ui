@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>server</artifactId>
+    <groupId>com.easy.quartz</groupId>
+    <version>0.1.0-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+
+  <packaging>war</packaging>
+
+  <artifactId>quartz-server-app</artifactId>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.easy.quartz</groupId>
+      <artifactId>quartz-ui-api</artifactId>
+      <version>0.1.0-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-legacy</artifactId>
+      <version>${spring.legacy.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-tx</artifactId>
+      <version>4.2.5.RELEASE</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.easy.quartz</groupId>
+      <artifactId>quartz-ui-common</artifactId>
+      <version>0.1.0-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.annotation</groupId>
+      <artifactId>jsr250-api</artifactId>
+      <version>1.0</version>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <finalName>quartz-server-${project.version}</finalName>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.tomcat.maven</groupId>
+        <artifactId>tomcat7-maven-plugin</artifactId>
+        <version>2.0</version>
+
+
+        <configuration>
+          <update>true</update>
+          <contextFile>tomcat/Context.xml</contextFile>
+          <mode>war</mode>
+          <uriEncoding>UTF-8</uriEncoding>
+          <path>/server</path>
+          <port>9117</port>
+        </configuration>
+
+
+        <dependencies>
+
+
+        </dependencies>
+
+
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>2.4</version>
+        <executions>
+          <execution>
+            <id>generate-manifest</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>manifest</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+          <archive>
+            <manifestEntries>
+              <Implementation-Version>${project.version}</Implementation-Version>
+              <Build-Revision>${buildNumber}-${maven.build.timestamp}</Build-Revision>
+            </manifestEntries>
+
+          </archive>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
