@@ -4,11 +4,12 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-
 public class DateFormatter {
-  public static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+  private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 
-  public static final SimpleDateFormat longDateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ssZ");
+  public static SimpleDateFormat getDateFormat(){
+    return  simpleDateFormat;
+  }
 
   public static String format(Timestamp timestamp) {
     if (timestamp == null) {
@@ -21,11 +22,5 @@ public class DateFormatter {
     if (source == null)
       return null;
     return new Timestamp(simpleDateFormat.parse(source).getTime());
-  }
-
-  public static Timestamp parsel(String source) throws ParseException {
-    if (source == null)
-      return null;
-    return new Timestamp(longDateFormat.parse(source).getTime());
   }
 }

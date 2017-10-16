@@ -1,7 +1,8 @@
 package com.easy.quartz.api;
 
+import com.easy.quartz.common.GroupJobsDto;
+import com.easy.quartz.common.GroupTriggersDto;
 import com.easy.quartz.common.JobDto;
-import com.easy.quartz.common.TriggerDto;
 import lombok.extern.log4j.Log4j;
 import org.quartz.*;
 import org.quartz.impl.matchers.GroupMatcher;
@@ -11,92 +12,102 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import static com.easy.quartz.common.RESTservices.JSONContentType;
-
-
 @RestController
 @RequestMapping("/quartz/")
 @Log4j
 public class QuartzController implements Serializable {
 
-  private static final long serialVersionUID = 1L;
-  private Scheduler schedulerBean;
+  private Scheduler scheduler;
 
   @Autowired
-  public void setSchedulerBean(Scheduler scheduler) {
-    schedulerBean = scheduler;
+  public void setScheduler(Scheduler scheduler) {
+    this.scheduler = scheduler;
   }
 
+  @RequestMapping(value = "/triggers", method = RequestMethod.GET, produces = JSONContentType)
+  public Set<GroupTriggersDto> getTriggers() throws SchedulerException {
 
-  @RequestMapping(value = "/", method = RequestMethod.GET, produces = JSONContentType)
-  public List<TriggerDto> getTriggers() throws SchedulerException {
+    List<String> triggerGroupNames = scheduler.getTriggerGroupNames();
+    Set<GroupTriggersDto> groupTriggers = new HashSet<>(triggerGroupNames.size());
+    for (String groupName : triggerGroupNames) {
+      GroupTriggersDto group = new GroupTriggersDto();
+      group.setName(groupName);
 
-    List<TriggerDto> triggers = new ArrayList<>(100);
-    for (String groupName : schedulerBean.getTriggerGroupNames()) {
-      for (TriggerKey triggerKey : schedulerBean.getTriggerKeys(GroupMatcher.triggerGroupEquals(groupName))) {
-        Trigger trigger = schedulerBean.getTrigger(triggerKey);
-        TriggerDto triggerDto = new TriggerDto();
-        triggerDto.setJobKey(trigger.getJobKey());
-        triggerDto.setTriggerKey(trigger.getKey());
-        triggerDto.setTriggerKeyName(trigger.getKey().getName());
-        triggerDto.setTriggerKeyGroup(trigger.getKey().getGroup());
-        triggerDto.setDescription(trigger.getDescription());
-        triggerDto.setStartTime(trigger.getStartTime());
-        triggerDto.setEndTime(trigger.getEndTime());
-        triggerDto.setNextFireTime(trigger.getNextFireTime());
-        triggerDto.setPreviousFireTime(trigger.getPreviousFireTime());
-        triggerDto.setTriggerState(schedulerBean.getTriggerState(triggerKey));
-
-        triggers.add(triggerDto);
+      Set<TriggerKey> triggerKeys = scheduler.getTriggerKeys(GroupMatcher.groupEquals(groupName));
+      Set<Trigger> triggers = new HashSet<>(triggerKeys.size());
+      for (TriggerKey triggerKey : triggerKeys) {
+        Trigger trigger = scheduler.getTrigger(triggerKey);
+        triggers.add(trigger);
       }
+
+      group.setTriggers(triggers);
+
+      groupTriggers.add(group);
     }
 
-    Collections.sort(triggers, (o1, o2) -> {
-      int comp = o1.getTriggerKeyGroup().compareTo(o2.getTriggerKeyGroup());
-      if (comp == 0)
-        return o1.getTriggerKeyName().compareTo(o2.getTriggerKeyName());
+    return groupTriggers;
+  }
+  @RequestMapping(value = "/jobs", method = RequestMethod.GET, produces = JSONContentType)
+  public Set<GroupJobsDto> getJobs() throws SchedulerException {
 
-      return comp;
-    });
+    List<String> jobGroupNames = scheduler.getJobGroupNames();
+    Set<GroupJobsDto> groupJobs = new HashSet<>(jobGroupNames.size());
+    for (String jobName : jobGroupNames) {
+      GroupJobsDto group = new GroupJobsDto();
+      group.setName(jobName);
 
-    return triggers;
+      Set<JobKey> jobKeys = scheduler.getJobKeys(GroupMatcher.groupEquals(jobName));
+      Set<JobDetail> jobs = new HashSet<>(jobKeys.size());
+      for (JobKey jobKey : jobKeys) {
+        JobDetail job = scheduler.getJobDetail(jobKey);
+        jobs.add(job);
+      }
+
+      group.setJobDetails(jobs);
+
+      groupJobs.add(group);
+    }
+
+    return groupJobs;
   }
 
-  public Date getTime() {
-    return new Date();
-  }
+
 
   @RequestMapping(value = "/pauseAll", method = RequestMethod.GET, produces = JSONContentType)
   public void pauseAll() throws SchedulerException {
-    schedulerBean.pauseAll();
+    scheduler.pauseAll();
   }
 
   @RequestMapping(value = "/pause", method = RequestMethod.GET, produces = JSONContentType)
   public void pauseTrigger(String triggerKeyName, String triggerKeyGroup) throws SchedulerException {
-    schedulerBean.pauseTrigger(new TriggerKey(triggerKeyName, triggerKeyGroup));
+    scheduler.pauseTrigger(new TriggerKey(triggerKeyName, triggerKeyGroup));
   }
 
   @RequestMapping(value = "/run", method = RequestMethod.GET, produces = JSONContentType)
   public void fireNow(String name, String group) throws SchedulerException {
     JobKey jobKey = new JobKey(name, group);
-    schedulerBean.triggerJob(jobKey);
+    scheduler.triggerJob(jobKey);
   }
 
   @RequestMapping(value = "/resumeAll", method = RequestMethod.GET, produces = JSONContentType)
   public void resumeAll() throws SchedulerException {
-    schedulerBean.resumeAll();
+    scheduler.resumeAll();
   }
 
   @RequestMapping(value = "/resume", method = RequestMethod.GET, produces = JSONContentType)
   public void resumeTrigger(String name, String group) throws SchedulerException {
-    schedulerBean.resumeTrigger(new TriggerKey(name, group));
+    scheduler.resumeTrigger(new TriggerKey(name, group));
   }
 
   @RequestMapping(value = "/executingJobs", method = RequestMethod.GET, produces = JSONContentType)
   public List<JobDto> getCurrentlyExecutingJobs() throws SchedulerException {
-    List<JobExecutionContext> executingJobs = schedulerBean.getCurrentlyExecutingJobs();
+    List<JobExecutionContext> executingJobs = scheduler.getCurrentlyExecutingJobs();
     List<JobDto> jobDtos = new ArrayList<>(executingJobs.size());
     for (JobExecutionContext executionContext : executingJobs) {
       JobDto jobDto = new JobDto();

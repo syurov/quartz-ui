@@ -62,7 +62,7 @@ public abstract class WebConfigBase extends WebMvcConfigurerAdapter {
     final Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
     builder
         .failOnEmptyBeans(false)
-        .dateFormat(DateFormatter.simpleDateFormat);
+        .dateFormat(DateFormatter.getDateFormat());
     MappingJackson2HttpMessageConverter conv = new MappingJackson2HttpMessageConverter(builder.build());
     List<MediaType> supported = new ArrayList<>();
     supported.add(MediaType.APPLICATION_JSON);
