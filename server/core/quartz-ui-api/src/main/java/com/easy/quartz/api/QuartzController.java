@@ -53,6 +53,15 @@ public class QuartzController implements Serializable {
 
     return groupTriggers;
   }
+
+  @RequestMapping(value = "/triggersState", method = RequestMethod.GET, produces = JSONContentType)
+  public Trigger.TriggerState getTriggersState(String name, String group) throws SchedulerException {
+    Trigger.TriggerState triggerState = scheduler.getTriggerState(new TriggerKey(name, group));
+    return triggerState;
+  }
+
+
+
   @RequestMapping(value = "/jobs", method = RequestMethod.GET, produces = JSONContentType)
   public Set<GroupJobsDto> getJobs() throws SchedulerException {
 
@@ -85,13 +94,13 @@ public class QuartzController implements Serializable {
   }
 
   @RequestMapping(value = "/pause", method = RequestMethod.GET, produces = JSONContentType)
-  public void pauseTrigger(String triggerKeyName, String triggerKeyGroup) throws SchedulerException {
-    scheduler.pauseTrigger(new TriggerKey(triggerKeyName, triggerKeyGroup));
+  public void pauseTrigger(String name, String group) throws SchedulerException {
+    scheduler.pauseTrigger(new TriggerKey(name, group));
   }
 
-  @RequestMapping(value = "/run", method = RequestMethod.GET, produces = JSONContentType)
-  public void fireNow(String name, String group) throws SchedulerException {
-    JobKey jobKey = new JobKey(name, group);
+  @RequestMapping(value = "/fire", method = RequestMethod.GET, produces = JSONContentType)
+  public void fireNow(String jobName, String jobGroup) throws SchedulerException {
+    JobKey jobKey = new JobKey(jobName, jobGroup);
     scheduler.triggerJob(jobKey);
   }
 
@@ -99,6 +108,17 @@ public class QuartzController implements Serializable {
   public void resumeAll() throws SchedulerException {
     scheduler.resumeAll();
   }
+
+  @RequestMapping(value = "/start", method = RequestMethod.GET, produces = JSONContentType)
+  public void start() throws SchedulerException {
+    scheduler.start();
+  }
+
+  @RequestMapping(value = "/shutdown", method = RequestMethod.GET, produces = JSONContentType)
+  public void shutdown() throws SchedulerException {
+    scheduler.shutdown();
+  }
+
 
   @RequestMapping(value = "/resume", method = RequestMethod.GET, produces = JSONContentType)
   public void resumeTrigger(String name, String group) throws SchedulerException {

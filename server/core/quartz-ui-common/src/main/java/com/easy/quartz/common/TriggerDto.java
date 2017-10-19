@@ -8,8 +8,7 @@ import org.quartz.TriggerKey;
 import java.util.Date;
 
 @Data
-public class TriggerDto {
-  private static final long serialVersionUID = 1L;
+public class TriggerDto  {
 
   TriggerKey triggerKey;
   String triggerKeyName;
