@@ -19,39 +19,39 @@
     </trigger>
   </schedule>
 
-  <schedule>
-    <job>
-      <name>Test job</name>
-      <group>Test group</group>
-      <job-class>com.easy.quartz.services.example.TestJob</job-class>
-    </job>
-    <trigger>
-      <simple>
-        <name>Test trigger 2</name>
-        <group>Test trigger group</group>
-        <job-name>Test job</job-name>
-        <job-group>Test group</job-group>
-        <repeat-count>-1</repeat-count>
-        <repeat-interval>2003</repeat-interval>
-      </simple>
-    </trigger>
-  </schedule>
+  <!--<schedule>-->
+    <!--<job>-->
+      <!--<name>Test job</name>-->
+      <!--<group>Test group</group>-->
+      <!--<job-class>com.easy.quartz.services.example.TestJob</job-class>-->
+    <!--</job>-->
+    <!--<trigger>-->
+      <!--<simple>-->
+        <!--<name>Test trigger 2</name>-->
+        <!--<group>Test trigger group</group>-->
+        <!--<job-name>Test job</job-name>-->
+        <!--<job-group>Test group</job-group>-->
+        <!--<repeat-count>-1</repeat-count>-->
+        <!--<repeat-interval>2003</repeat-interval>-->
+      <!--</simple>-->
+    <!--</trigger>-->
+  <!--</schedule>-->
 
-  <schedule>
-    <job>
-      <name>Test job</name>
-      <group>Test group</group>
-      <job-class>com.easy.quartz.services.example.TestJob</job-class>
-    </job>
-    <trigger>
-      <simple>
-        <name>Test trigger 2</name>
-        <group>Test trigger group 2</group>
-        <job-name>Test job</job-name>
-        <job-group>Test group</job-group>
-        <repeat-count>-1</repeat-count>
-        <repeat-interval>2003</repeat-interval>
-      </simple>
-    </trigger>
-  </schedule>
+  <!--<schedule>-->
+    <!--<job>-->
+      <!--<name>Test job</name>-->
+      <!--<group>Test group</group>-->
+      <!--<job-class>com.easy.quartz.services.example.TestJob</job-class>-->
+    <!--</job>-->
+    <!--<trigger>-->
+      <!--<simple>-->
+        <!--<name>Test trigger 2</name>-->
+        <!--<group>Test trigger group 2</group>-->
+        <!--<job-name>Test job</job-name>-->
+        <!--<job-group>Test group</job-group>-->
+        <!--<repeat-count>-1</repeat-count>-->
+        <!--<repeat-interval>2003</repeat-interval>-->
+      <!--</simple>-->
+    <!--</trigger>-->
+  <!--</schedule>-->
 </job-scheduling-data>
