@@ -5,6 +5,7 @@ target/
 *.log
 .orig
 
+/tomcat
 currentWork/
 MANIFEST.MF
 

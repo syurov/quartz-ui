@@ -22,6 +22,12 @@
     </dependency>
 
     <dependency>
+      <groupId>com.easy.quartz</groupId>
+      <artifactId>quartz-ui-database</artifactId>
+      <version>0.1.0-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-aop</artifactId>
       <version>${spring.version}</version>
@@ -65,6 +71,13 @@
       <version>1.0</version>
     </dependency>
 
+    <dependency>
+      <groupId>com.microsoft.sqlserver</groupId>
+      <artifactId>mssql-jdbc</artifactId>
+      <version>6.1.0.jre7</version>
+      <scope>provided</scope>
+    </dependency>
+
   </dependencies>
 
   <build>
@@ -79,7 +92,7 @@
 
         <configuration>
           <update>true</update>
-          <contextFile>tomcat/Context.xml</contextFile>
+          <contextFile>../../tomcat/Context.xml</contextFile>
           <mode>war</mode>
           <uriEncoding>UTF-8</uriEncoding>
           <path>/server</path>
@@ -88,7 +101,11 @@
 
 
         <dependencies>
-
+          <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <version>6.1.0.jre7</version>
+          </dependency>
 
         </dependencies>
 

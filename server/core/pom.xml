@@ -15,6 +15,7 @@
     <module>quartz-ui-common</module>
     <module>quartz-ui-api</module>
     <module>quartz-ui-service</module>
+    <module>quartz-ui-database</module>
   </modules>
 
   <packaging>pom</packaging>

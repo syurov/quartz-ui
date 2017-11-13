@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Import;
 @Configuration
 @Import(value = {QuartzConfig.class})
 @ComponentScan({
+    "com.easy.quartz.database",
     "com.easy.quartz.dal",
     "com.easy.quartz.services"})
 public class AppConfig {
