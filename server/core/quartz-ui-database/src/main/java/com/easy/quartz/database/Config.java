@@ -14,7 +14,7 @@ public class Config {
   DataSource dataSource;
 
   @Bean
-  SpringLiquibase springLiquibase() {
+  SpringLiquibase liquibase() {
     SpringLiquibase springLiquibase = new SpringLiquibase();
     springLiquibase.setChangeLog("classpath:db/changelog/db.changelog-master.xml");
     springLiquibase.setDataSource(dataSource);

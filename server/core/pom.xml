@@ -16,6 +16,7 @@
     <module>quartz-ui-api</module>
     <module>quartz-ui-service</module>
     <module>quartz-ui-database</module>
+    <module>quartz-ui-dal</module>
   </modules>
 
   <packaging>pom</packaging>
@@ -25,6 +26,11 @@
       <dependency>
         <groupId>com.easy.quartz</groupId>
         <artifactId>quartz-ui-common</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>com.easy.quartz</groupId>
+        <artifactId>quartz-ui-dal</artifactId>
         <version>0.1.0-SNAPSHOT</version>
       </dependency>
       <dependency>
